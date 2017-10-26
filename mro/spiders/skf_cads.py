@@ -15,8 +15,8 @@ ids = list(out.id)
 catalog_ids = dict(zip(catalog, ids))
 
 
-class SKFCrawl(scrapy.Spider):
-    name = "skf"
+class SKFCadsCrawl(scrapy.Spider):
+    name = "skf_cads"
 
     def start_requests(self):
         for row in out['catalog_number']:

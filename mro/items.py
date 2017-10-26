@@ -89,7 +89,7 @@ class MotionItem(Item):
 	mi_item = Field()
 
 
-class RegalItem(Item):
+class RegalCadItem(Item):
 	ids = Field()
 	catalog_number = Field()
 	cad = Field()
@@ -150,3 +150,108 @@ class TecoDocsItem(Item):
 	catalog_number = Field()
 	name = Field()
 	document = Field()
+
+
+class BaldorDocsItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	description = Field()
+	img = Field()
+	specs = Field()
+	doc_name = Field()
+	doc_url = Field()
+
+
+class BaldorvipItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	additional_descr = Field()
+
+
+class BaldorvipSpecsItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	specs_or_overview = Field()
+	description = Field()
+
+
+class BaldorvipImagesItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	name = Field()
+	url = Field()
+
+
+class CrownItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	description = Field()
+	sku = Field()
+	img = Field()
+	additional_description = Field()
+	name = Field()
+	url = Field()
+
+
+class GrundfosItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	image = Field()
+	description = Field()
+	specifications = Field()
+	ids = Field()
+
+
+class PatriotItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	descr = Field()
+
+
+class RegalptsDescrItem(Item):
+	ids = Field()
+	brand = Field()
+	catalog_number = Field()
+	descr = Field()
+
+
+class RegalptsDocumentsItem(Item):
+	ids = Field()
+	brand = Field()
+	catalog_number = Field()
+	name = Field()
+	url = Field()
+
+
+class RegalptsImageItem(Item):
+	ids = Field()
+	brand = Field()
+	catalog_number = Field()
+	url = Field()
+
+
+class RexnordAttrItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	attributes = Field()
+
+
+class RexnordDocsItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	name = Field()
+	url = Field()
+
+
+class SkfSealsItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	file_name = Field()
+
+
+class WegItem(Item):
+	ids = Field()
+	catalog_number = Field()
+	descr = Field()
+	add_descr = Field()
+	img_url = Field()

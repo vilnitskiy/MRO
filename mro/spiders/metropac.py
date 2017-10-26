@@ -15,7 +15,6 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.loader.processors import TakeFirst, MapCompose, Join
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Spider
-from scrapy.utils.python import to_native_str
 
 
 class MetropacSpider(CrawlSpider):

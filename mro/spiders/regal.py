@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import scrapy
-from mro.items import RegalItem
+from mro.items import RegalCadItem
 import urllib
 import urllib2
 import shutil
@@ -18,8 +18,8 @@ ids = list(out.id)
 catalog_ids = dict(zip(catalog, ids))
 
 
-class RegalptsCrawl(CrawlSpider):
-	name = "regalpts"
+class RegalptsCadsCrawl(CrawlSpider):
+	name = "regalpts_cads"
 
 	def start_requests(self):
 		for row in out['catalog_number']:
@@ -59,7 +59,7 @@ class RegalptsCrawl(CrawlSpider):
 							)
 
 	def create_item(self, meta_row, cad):
-		item = RegalItem()
+		item = RegalCadItem()
 		item['ids'] = catalog_ids[meta_row]
 		item['catalog_number'] = str(meta_row).strip()
 		item['cad'] = cad
