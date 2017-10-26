@@ -1,10 +1,13 @@
 # MRO #
 Private scraping project for MROsupply.com company
 
-To run locally, execute:
+Clone project:
 ```
-https://github.com/vilnitskiy/MRO.git
+git clone https://github.com/vilnitskiy/MRO.git
 cd MRO
+```
+Then, to run locally:
+```
 virtualenv .venv --no-site-packages
 source .venv/bin/activate
 pip install -r requirements.txt
