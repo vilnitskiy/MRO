@@ -1,19 +1,10 @@
 # -*- coding: utf-8 -*-
-import re
-import scrapy
-import pandas
-from csv import DictReader
-from datetime import datetime
-from scrapy.contrib.loader import ItemLoader
-from scrapy.contrib.loader.processor import Compose
+from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.contrib.spiders import Rule
 from scrapy.selector import HtmlXPathSelector
+
 from mro.items import MotionItem
-from scrapy.linkextractors import LinkExtractor
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.loader.processors import TakeFirst, MapCompose, Join
-from scrapy.linkextractors import LinkExtractor
 
 
 class MotionCrawl(CrawlSpider):
@@ -45,7 +36,8 @@ class MotionCrawl(CrawlSpider):
 
         if not response.xpath('//div[@class="result-item-detail"]//h1[@class="manufacturer-name"]/text()'):
             return
-        codes = response.xpath('//div[@class="result-item-detail"]//h1[@class="manufacturer-name"]/text()').re('Dodge \(Baldor\) (.+)')
+        codes = response.xpath('//div[@class="result-item-detail"]//h1[@class="manufacturer-name"]/text()').re(
+            'Dodge \(Baldor\) (.+)')
         mi = response.xpath('//div[@class="result-item-detail"]//div[@class="item-property"]/a/text()').re('# (.+)')
 
         d = zip(codes, mi)

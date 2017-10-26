@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+import urllib
+
 import pandas as pd
 import scrapy
-import urllib
+
 from mro.items import PatriotItem
- 
 
 out = pd.read_csv("spiders/csv_data/Patriot/patriot.csv", sep=',')
 catalog = list(out.catalog_number)
 ids = list(out.id)
 catalog_ids = dict(zip(catalog, ids))
+
 
 class Patriot(scrapy.Spider):
     name = "patriot"
@@ -20,7 +22,7 @@ class Patriot(scrapy.Spider):
     def start_requests(self):
         for row in out['catalog_number']:
             url = 'https://www.patriot-supply.com/search_new.cfm?q=' + urllib.quote_plus(str(row).strip()) + '&button='
-            yield scrapy.Request(url=url, 
+            yield scrapy.Request(url=url,
                                  callback=self.parse_item1,
                                  meta={'meta_row': row}
                                  )
@@ -39,13 +41,14 @@ class Patriot(scrapy.Spider):
             return scrapy.Request(url=url,
                                   callback=self.parse_item2,
                                   meta={'meta_row': response.meta['meta_row']}
-                                  )    
+                                  )
         else:
             return self.empty_item(response.meta['meta_row'])
 
     def parse_item2(self, response):
         meta_row = response.meta['meta_row']
-        if str(meta_row).strip().lower() == response.xpath('//*[@id="leftcol"]/div[2]/div[2]/ul/li[2]/strong/text()').extract_first().lower():
+        if str(meta_row).strip().lower() == response.xpath(
+                '//*[@id="leftcol"]/div[2]/div[2]/ul/li[2]/strong/text()').extract_first().lower():
             url = response.xpath('//*[@id="desc_ifr"]/@src').extract_first()
             url = response.urljoin(url)
             return scrapy.Request(url=url,
@@ -62,8 +65,3 @@ class Patriot(scrapy.Spider):
         item['catalog_number'] = str(response.meta['meta_row']).strip()
         item['descr'] = descr
         return item
-
-
-
-
-

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
-import scrapy
-from mro.items import SkfSealsItem
+import shutil
 import urllib
 import urllib2
-from scrapy.http import FormRequest
-import re
-import shutil
 
+import pandas as pd
+import scrapy
+from scrapy.http import FormRequest
+
+from mro.items import SkfSealsItem
 
 out = pd.read_csv("spiders/csv_data/Skf/skf_seals.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -29,7 +29,6 @@ class SkfSealsCrawl(scrapy.Spider):
             data = ''
         return data
 
-
     def request(self, meta_row):
         row = urllib.quote_plus(str(meta_row).strip())
         url = 'http://www.skf.com/group/system/SearchResult.html?search=' + row
@@ -50,8 +49,11 @@ class SkfSealsCrawl(scrapy.Spider):
     def parse_item1(self, response, meta_row):
         if 'Our apologies, something has gone wrong' in response.xpath('//*').extract_first():
             return self.request(meta_row)
-        elif self.custom_extractor(response, '//*[@id="skf-search-form"]/div[2]/div[2]/ul/li[1]/div/div[1]/ul/li[2]/a/span/text()') == str(meta_row).strip().lower():
-            url = response.xpath('//*[@id="skf-search-form"]/div[2]/div[2]/ul/li[1]/div/div[1]/ul/li[2]/a/@href').re(r'prodid=(.+)&pubid')[0]
+        elif self.custom_extractor(response,
+                                   '//*[@id="skf-search-form"]/div[2]/div[2]/ul/li[1]/div/div[1]/ul/li[2]/a/span/text()') == str(
+                meta_row).strip().lower():
+            url = response.xpath('//*[@id="skf-search-form"]/div[2]/div[2]/ul/li[1]/div/div[1]/ul/li[2]/a/@href').re(
+                r'prodid=(.+)&pubid')[0]
             url = urllib2.unquote(url)
             url = urllib.quote_plus(url)
             url = 'http://webassistants.partcommunity.com/23d-libs/skf/mapping/get_mident_index_designation.vbb?designation=' + url
@@ -60,7 +62,6 @@ class SkfSealsCrawl(scrapy.Spider):
             return scrapy.Request(url=url, callback=callback, errback=errback, dont_filter=True)
         else:
             return self.error(meta_row)
-
 
     def parse_item(self, response, meta_row):
         if 'error' in response.xpath('//*').extract_first():
@@ -82,7 +83,7 @@ class SkfSealsCrawl(scrapy.Spider):
         callback = lambda response: self.parse_item3(response, meta_row)
         errback = lambda failure: self.repeat29(failure, meta_row)
         return FormRequest(url="http://www.skf.com/ajax/cadDownload.json",
-                    formdata=form_data, errback=errback, callback=callback, dont_filter=True)
+                           formdata=form_data, errback=errback, callback=callback, dont_filter=True)
 
     def parse_item3(self, response, meta_row):
         url = response.xpath('//*').re(r'{"downloadURL":"(.+)"')[0]

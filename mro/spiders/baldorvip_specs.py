@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import scrapy
-from mro.items import BaldorvipSpecsItem
 from scrapy.http import FormRequest
 
+from mro.items import BaldorvipSpecsItem
 
 out = pd.read_csv("spiders/csv_data/Baldor/baldor1.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -21,16 +21,15 @@ class Dixon(scrapy.Spider):
 
     def request(self, url, row):
         callback = lambda response: self.parse_item(response, row)
-        return scrapy.Request(url=url,callback=callback)
+        return scrapy.Request(url=url, callback=callback)
 
-    def parse_item(self, response, row):       
+    def parse_item(self, response, row):
         overview = str(response.xpath('//*[@class="verticalTable"]/tbody').extract_first())
         descr = response.xpath('//*[@id="siteRightColumnContentContainer"]/div[2]/div[2]/text()').extract_first()
         callback = lambda response: self.parse_item1(response, row, overview, descr)
         return FormRequest(url="https://www.baldorvip.com/Product/LoadSpecsTab",
-                    formdata={'MaterialNumber': row},
-                    callback=callback)
-
+                           formdata={'MaterialNumber': row},
+                           callback=callback)
 
     def parse_item1(self, response, row, overview, descr):
         specs = str(response.xpath('//*').extract_first().encode('ascii', 'ignore'))
@@ -41,6 +40,3 @@ class Dixon(scrapy.Spider):
         item['specs_or_overview'] = overwiew_specs
         item['description'] = descr
         return item
-
-
-

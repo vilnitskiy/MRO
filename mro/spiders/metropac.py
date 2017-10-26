@@ -1,20 +1,12 @@
 # -*- coding: utf-8 -*-
 import re
-import scrapy
+
 import pandas
-from csv import DictReader
-from datetime import datetime
-from scrapy.contrib.loader import ItemLoader
-from scrapy.contrib.loader.processor import Compose
+import scrapy
 from scrapy.contrib.spiders import CrawlSpider
-from scrapy.contrib.spiders import Rule
 from scrapy.selector import HtmlXPathSelector
+
 from mro.items import MetropacItem
-from scrapy.linkextractors import LinkExtractor
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.loader.processors import TakeFirst, MapCompose, Join
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import Spider
 
 
 class MetropacSpider(CrawlSpider):
@@ -36,12 +28,12 @@ class MetropacSpider(CrawlSpider):
 
     def parse1(self, response):
         cookie = response.xpath('//script').re('var trkNo = "(.+)"')[0]
-        #print cookie
+        # print cookie
         url = 'https://www.metropac.com/eserv/eclipse.ecl'
         formdata = {
             'PROCID': 'WEBPROC.WOE.AUTH',
             'TRACKNO': cookie,
-            #'TRACKNO': 'J6543819402',
+            # 'TRACKNO': 'J6543819402',
             'SEARCHSTR': '',
             'FX': 'FX',
             'VER': 'B',
@@ -53,7 +45,7 @@ class MetropacSpider(CrawlSpider):
             'savelogpw': '',
             'bypass': ''
         }
-        #print '------------login--------------' + cookie
+        # print '------------login--------------' + cookie
         self.track = cookie
         return scrapy.FormRequest(
             url=url,
@@ -90,11 +82,11 @@ class MetropacSpider(CrawlSpider):
 
     def start_req(self, response):
         for row in self.data['catalog_number']:
-            #row = self.data['catalog_number'][i]
-            #prev = self.data['catalog_number'][i-1]
+            # row = self.data['catalog_number'][i]
+            # prev = self.data['catalog_number'][i-1]
             yield self.request1(row)
-        # for row, prev in zip(self.data['catalog_number'], self.data['catalog_number'][1:]):
-        #     yield self.request1(row, prev)
+            # for row, prev in zip(self.data['catalog_number'], self.data['catalog_number'][1:]):
+            #     yield self.request1(row, prev)
 
     def request1(self, meta_row):
         row = str(meta_row).strip()

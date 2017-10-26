@@ -1,20 +1,10 @@
 # -*- coding: utf-8 -*-
-import re
-import scrapy
 import pandas
-from csv import DictReader
-from datetime import datetime
-from scrapy.contrib.loader import ItemLoader
-from scrapy.contrib.loader.processor import Compose
+import scrapy
 from scrapy.contrib.spiders import CrawlSpider
-from scrapy.contrib.spiders import Rule
 from scrapy.selector import HtmlXPathSelector
-from mro.items import StatesItem
-from scrapy.linkextractors import LinkExtractor
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.loader.processors import TakeFirst, MapCompose, Join
-from scrapy.linkextractors import LinkExtractor
 
+from mro.items import StatesItem
 
 proxy = pandas.read_csv("spiders/csv_data/States/proxy.csv", sep=',')
 proxy_list = list(proxy.proxy)
@@ -31,13 +21,13 @@ class StatesSpider(CrawlSpider):
     def get_proxy(self):
         self.index = self.index + 1 if change else self.index
         if self.index == 100:
-        	self.index = 0
+            self.index = 0
         return proxy_list[self.index]
 
     # create list of urls from file
     urls = []
     for sku in catalog:
-    	urls.append('https://www.statesupply.com/catalogsearch/result/?q=' + str(sku))
+        urls.append('https://www.statesupply.com/catalogsearch/result/?q=' + str(sku))
 
     start_urls = urls
 
@@ -47,25 +37,28 @@ class StatesSpider(CrawlSpider):
         return request
 
     def parse(self, response):
-    	if response.xpath('//article[@itemtype="http://schema.org/Product"]//h1[@itemprop="name"]/a[@itemprop="url"]/@href'):
-    		url = response.xpath('//article[@itemtype="http://schema.org/Product"]//h1[@itemprop="name"]/a[@itemprop="url"]/@href').extract()[0]
-    		print url
-	    	return scrapy.Request(url=url, callback=self.parse_product, meta={'proxy': proxy})
+        if response.xpath(
+                '//article[@itemtype="http://schema.org/Product"]//h1[@itemprop="name"]/a[@itemprop="url"]/@href'):
+            url = response.xpath(
+                '//article[@itemtype="http://schema.org/Product"]//h1[@itemprop="name"]/a[@itemprop="url"]/@href').extract()[
+                0]
+            print url
+            return scrapy.Request(url=url, callback=self.parse_product, meta={'proxy': proxy})
 
     def parse_product(self, response):
-    	hxs = HtmlXPathSelector(response)
-    	
-    	data = pandas.read_csv("spiders/csv_data/States/BellGossett.csv", sep=',')
-    	catalog = list(data.catalog_number)
-    	ids = list(data.id)
+        hxs = HtmlXPathSelector(response)
 
-    	catalog_ids = dict(zip(catalog, ids))
+        data = pandas.read_csv("spiders/csv_data/States/BellGossett.csv", sep=',')
+        catalog = list(data.catalog_number)
+        ids = list(data.id)
 
-    	mpn = response.xpath('//span[@id="mpn"]/text()').extract()[0]
-    	print mpn
-    	if mpn in catalog:
-    		item = StatesItem()
-    		item['ids'] = catalog_ids[mpn]
-    		item['description'] = response.xpath('//div[@itemprop="description"]').extract()[0]
-    		item['catalog_number'] = mpn
-    		return item
+        catalog_ids = dict(zip(catalog, ids))
+
+        mpn = response.xpath('//span[@id="mpn"]/text()').extract()[0]
+        print mpn
+        if mpn in catalog:
+            item = StatesItem()
+            item['ids'] = catalog_ids[mpn]
+            item['description'] = response.xpath('//div[@itemprop="description"]').extract()[0]
+            item['catalog_number'] = mpn
+            return item

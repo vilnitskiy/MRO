@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
-import scrapy
-from mro.items import CrownItem
+import HTMLParser
 import re
 import urllib
-import HTMLParser
 
+import pandas as pd
+import scrapy
+
+from mro.items import CrownItem
 
 out = pd.read_csv("spiders/csv_data/Crown/Crown_images_&_descr.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -30,12 +31,12 @@ class Mcr(scrapy.Spider):
         key = re.findall(r'%s - (\S+) ' % sku, product_descr)[0]
 
         url = 'http://crown-mats.com/?s=' + urllib.quote_plus(key) + '&lang=en'
-        return scrapy.Request(url=url, 
-                            callback=self.parse_item,
-                            errback=lambda failure: self.request(row),
-                            dont_filter=True,
-                            meta={'row': row}
-                            )
+        return scrapy.Request(url=url,
+                              callback=self.parse_item,
+                              errback=lambda failure: self.request(row),
+                              dont_filter=True,
+                              meta={'row': row}
+                              )
 
     def create_item(self, row, img_url, doc_url, add_descr):
         item = CrownItem()
@@ -56,17 +57,17 @@ class Mcr(scrapy.Spider):
     def parse_item(self, response):
         row = response.meta['row']
         product_descr = catalog_descr[row]
-        if not response.xpath('//div[@class="error-page"]').extract_first(): 
+        if not response.xpath('//div[@class="error-page"]').extract_first():
             for item in response.xpath('//*[@id="posts-container"]/div'):
                 key = item.xpath('./div[3]/h2/a/text()').extract_first()
                 if key and (key.lower() in product_descr.lower()):
                     url = item.xpath('./div[3]/h2/a/@href').extract_first()
                     return scrapy.Request(url=url,
-                                callback=self.parse_item2,
-                                errback=lambda failure: self.request(row),
-                                dont_filter=True,
-                                meta={'row': row}
-                                )
+                                          callback=self.parse_item2,
+                                          errback=lambda failure: self.request(row),
+                                          dont_filter=True,
+                                          meta={'row': row}
+                                          )
         '''
         else:
             return self.create_item(row, '', '', '')
@@ -100,7 +101,7 @@ class Mcr(scrapy.Spider):
         product_descr = catalog_descr[row]
         pages_sku = response.xpath('//span[@class="sku"]/text()').extract_first()
 
-        #pattern row in next spider
+        # pattern row in next spider
         pattern_row = response.xpath('//th[text()="Pattern"]/../td/p/text()').extract_first()
         if pattern_row:
             return
@@ -128,13 +129,4 @@ class Mcr(scrapy.Spider):
                 if color in product_descr:
                     color = 1 if one_color else color
                     img, add_descr, pdf = self.extract_data(response, color)
-                    return self.create_item(row, img, pdf, add_descr)         
-
-
-
-
-
-
-
-
-
+                    return self.create_item(row, img, pdf, add_descr)

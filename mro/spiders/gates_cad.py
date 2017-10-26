@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
-import scrapy
-from mro.items import GatesItem
-import random, re
-import json
-from urllib import urlopen
+import shutil
 import urllib
 import urllib2
-import shutil
- 
+
+import pandas as pd
+import scrapy
+
+from mro.items import GatesItem
 
 out = pd.read_csv("spiders/csv_data/Gates/gates.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -31,12 +29,12 @@ class GatesCadCrawl(scrapy.Spider):
 
     def request(self, url, meta_row, row, proxy):
         callback = lambda response: self.parse_item(response, meta_row, row, url)
-        #errback = lambda failure: self.repeat(failure, url, meta_row, row)
-        return scrapy.Request(url=url, 
-                            callback=callback, 
-                            #errback=errback, 
-                            meta={'proxy': proxy}, 
-                            dont_filter=True)
+        # errback = lambda failure: self.repeat(failure, url, meta_row, row)
+        return scrapy.Request(url=url,
+                              callback=callback,
+                              # errback=errback,
+                              meta={'proxy': proxy},
+                              dont_filter=True)
 
     # def repeat(self, failure, url, meta_row, row):
     #     proxy = '108.59.14.203:13040'
