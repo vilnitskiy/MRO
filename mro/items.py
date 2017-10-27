@@ -255,3 +255,17 @@ class WegItem(Item):
 	descr = Field()
 	add_descr = Field()
 	img_url = Field()
+
+
+class TracepartsonlineErrorItem(Item):
+    ids = Field()
+    catalog_number = Field()
+
+class EItem(Item):
+    ids = Field()
+    description = Field()
+    item_code = Field()
+    ordering_number = Field()
+    add_descr = Field()
+
+
