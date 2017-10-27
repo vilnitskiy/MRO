@@ -2,3 +2,4 @@ Scrapy==1.4.0
 numpy==1.13.3
 pyyaml
 Pandas
+git+https://github.com/scrapy/scrapyd-client
