@@ -268,3 +268,13 @@ class EItem(Item):
     item_code = Field()
     ordering_number = Field()
     add_descr = Field()
+
+
+class CarlislebeltsItem(Item):
+    ids = Field()
+    catalog_number = Field()
+    description = Field()
+    additional_description = Field()
+    image = Field()
+    brochure = Field()
+    product_specs = Field()
