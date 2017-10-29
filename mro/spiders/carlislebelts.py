@@ -85,6 +85,9 @@ class CarlislebeltsCrawl(CrawlSpider):
             if response.xpath('//span[@class="prod-thumb selected"]/img/@src'):
                 item['image'] = 'http://www.carlislebelts.com' + response.xpath('//span[@class="prod-thumb selected"]/img/@src').extract()[0]
 
+        item['brochure'] = ''
+        item['product_specs'] = ''
+
         item['brochure'] = 'http://www.carlislebelts.com' + \
                                  response.xpath('//div[@class="product-download"]/p[contains(text(), "Brochure")]/../a/@href').extract()[0]
         item['product_specs'] = 'http://www.carlislebelts.com' + \
