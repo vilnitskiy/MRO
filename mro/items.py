@@ -278,3 +278,12 @@ class CarlislebeltsItem(Item):
     image = Field()
     brochure = Field()
     product_specs = Field()
+
+
+class BostongearItem(Item):
+    ids = Field()
+    catalog_number = Field()
+    code = Field()
+    image = Field()
+    documents = Field()
+    additional_description = Field()
