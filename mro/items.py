@@ -286,4 +286,5 @@ class BostongearItem(Item):
     code = Field()
     image = Field()
     documents = Field()
+    name = Field()
     additional_description = Field()

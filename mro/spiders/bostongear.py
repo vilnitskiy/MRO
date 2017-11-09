@@ -19,7 +19,8 @@ catalog_ids = dict(zip(catalog, ids))
 catalog_codes = dict(zip(catalog, codes))
 catalog_documents = dict(zip(catalog, documents))
 catalog_descriptions = dict(zip(catalog, additional_descriptions))
-
+bad_products = ['ROLLED', 'SPUR', 'ONE', 'HRTF', 'PRECISE', 
+                'LOCKING', 'FAN', 'SIZE', 'STAINLESS', 'TORQUE', 'HQSH', 'STEEL']
 
 class BostongearCrawl(CrawlSpider):
     name = "bostongear"
@@ -30,6 +31,8 @@ class BostongearCrawl(CrawlSpider):
 
     def start_requests(self):
         for row in catalog:
+            if str(row) in bad_products:
+                continue
             url = 'http://www.product-config.net/catalog3/service?o=keys&d=altra.bostongear&cdskeys={}&unit=english/'.format(
                 row)
             yield scrapy.Request(
@@ -48,7 +51,7 @@ class BostongearCrawl(CrawlSpider):
         if not products:
             if 'code' not in response.meta:
                 code = catalog_codes[row]
-                if str(code) == 'nan':
+                if (str(code) == 'nan') or (str(code) in bad_products):
                     return
                 else:
                     url = 'http://www.product-config.net/catalog3/service?o=keys&d=altra.bostongear&cdskeys={}&unit=english/'.format(
@@ -82,7 +85,10 @@ class BostongearCrawl(CrawlSpider):
                 item['additional_description'] = catalog_descriptions[row]
 
             if str(catalog_documents[row]) == 'nan':
-                docs = re.findall("'(http://www\.altraliterature\.com/.+?)'", str(products))
+                docs = {}
+                for i,doc in enumerate(products['attributeValues']):
+                    if 'www.altraliterature.com' in doc:
+                        docs[doc] = products['attributes'][i]['label']
                 return self.make_items(item, docs)
             else:
                 item['documents'] = catalog_documents[row]
@@ -106,6 +112,7 @@ class BostongearCrawl(CrawlSpider):
         return specs
 
     def make_items(self, item, docs):
-        for doc in docs:
+        for doc,name in docs.items():
             item['documents'] = doc
+            item['name'] = name
             yield item
