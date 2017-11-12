@@ -2,6 +2,11 @@
 from scrapy.item import Item, Field
 
 
+class MartinItem(Item):
+    catalog_number = Field()
+    img_url = Field()
+    id = Field()
+
 class BaldorCadItem(Item):
     ids = Field()
     catalog_number = Field()
