@@ -288,3 +288,16 @@ class BostongearItem(Item):
     documents = Field()
     name = Field()
     additional_description = Field()
+
+class MartinItem(Item):
+    ids = Field()
+    catalog_number = Field()
+    description = Field()
+    main_image = Field()
+    additional_description = Field()
+    attributes = Field()
+
+class MartinAttributesItem(Item):
+    ids = Field()
+    catalog_number = Field()
+    attributes = Field()
