@@ -3,10 +3,6 @@ import json
 import re
 import pandas as pd
 import scrapy
-import lxml.html
-import lxml.html.clean as clean
-
-from mro.items import MartinCADItem
 
 out = pd.read_csv("spiders/csv_data/Reelcraft/Export_for_products_product.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -34,10 +30,6 @@ class Martin(scrapy.Spider):
     def parse_item(self, response):
         row = response.meta['row']
         if 'No search results found' not in response.body_as_unicode():
-            item = MartinCADItem()
-            item['ids'] = catalog_ids[row]
-            item['catalog_number'] = row
-            item['dxf'] = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblDXF"]/../@href')
-            item['pdf'] = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblPDF"]/../@href')
-            item['igs'] = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblIGS"]/../@href')
-            return item
+            dxf = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblDXF"]/../@href')
+            pdf = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblPDF"]/../@href')
+            igs = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblIGS"]/../@href')
