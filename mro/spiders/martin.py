@@ -6,7 +6,7 @@ import scrapy
 
 from mro.items import MartinItem
 
-out = pd.read_csv("spiders/csv_data/Martin/martin.csv", sep=',')
+out = pd.read_csv("spiders/csv_data/Martin/martin_catalog.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
 ids = list(out.id)
 description = list(out.description)

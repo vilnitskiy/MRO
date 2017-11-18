@@ -301,3 +301,10 @@ class MartinAttributesItem(Item):
     ids = Field()
     catalog_number = Field()
     attributes = Field()
+
+class MartinCADItem(Item):
+    ids = Field()
+    catalog_number = Field()
+    dxf = Field()
+    pdf = Field()
+    igs = Field()
