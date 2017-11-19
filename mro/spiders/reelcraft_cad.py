@@ -31,5 +31,28 @@ class Martin(scrapy.Spider):
         row = response.meta['row']
         if 'No search results found' not in response.body_as_unicode():
             dxf = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblDXF"]/../@href')
+            if dxf:
+            	yield scrapy.Request(url=dxf,
+                                 callback=self.download,
+                                 dont_filter=True,
+                                 meta={'row': row, 'cad': 'dxf'}
+                                 )
             pdf = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblPDF"]/../@href')
+            if pdf:
+            	yield scrapy.Request(url=pdf,
+                                 callback=self.download,
+                                 dont_filter=True,
+                                 meta={'row': row, 'cad': 'pdf'}
+                                 )
             igs = self.custom_extractor(response, '//*[@id="Repeater2_ctl00_lblIGS"]/../@href')
+            if igs:
+            	yield scrapy.Request(url=igs,
+                                 callback=self.download,
+                                 dont_filter=True,
+                                 meta={'row': row, 'cad': 'igs'}
+                                 )
+    def download(self, response):
+    	cad = response.meta['cad']
+    	item = response.meta['row'].replace('/', '_') + response.url[-4:]
+    	with open('results/Reelcraft/' + cad + '_cad/' + item, 'wb') as file:
+            file.write(response.body)
