@@ -305,6 +305,6 @@ class MartinAttributesItem(Item):
 class MartinCADItem(Item):
     ids = Field()
     catalog_number = Field()
-    dxf = Field()
+    #dxf = Field()
     pdf = Field()
-    igs = Field()
+    #igs = Field()

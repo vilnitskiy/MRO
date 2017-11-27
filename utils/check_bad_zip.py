@@ -3,9 +3,10 @@ import zipfile
 import pandas as pd
 import csv
 
-path = 'regalpts_download/'
+path = 'results/Reelcraft/dxf_cad/'
 files = os.listdir(path)
 
 for file in files:
 	if not zipfile.is_zipfile(path + file):
-		os.remove(path + file)
+		print file
+		#os.remove(path + file)
