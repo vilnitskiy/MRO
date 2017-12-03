@@ -7,7 +7,7 @@ from datetime import datetime
 from collections import Counter
 
 # origin file
-data = pandas.read_csv("/data/work/virtualenvs/scrapy/crawls/skf_seals_download.csv", sep=',')
+# data = pandas.read_csv("/data/work/virtualenvs/scrapy/crawls/skf_seals_download.csv", sep=',')
 catalog = list(data.catalog_number)
 ids = list(data.ids)
 file_name = list(data.file_name)
