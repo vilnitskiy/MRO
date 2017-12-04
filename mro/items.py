@@ -308,3 +308,9 @@ class MartinCADItem(Item):
     #dxf = Field()
     pdf = Field()
     #igs = Field()
+
+
+class FannerdrivesItem(Item):
+    ids = Field()
+    catalog_number = Field()
+    images = Field()
