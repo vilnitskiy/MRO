@@ -314,3 +314,8 @@ class UnivarsalItem(Item):
         if key not in self.fields:
             self.fields[key] = Field()
         self._values[key] = value
+
+class FannerdrivesItem(Item):
+    ids = Field()
+    catalog_number = Field()
+    images = Field()
