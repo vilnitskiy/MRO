@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
 import re
 import urllib
 
 import pandas as pd
 import scrapy
 
-from mro.items import MartinAttributesItem
+from mro.items import MartinAttributesItem, FannerdrivesItem
 
 out = pd.read_csv("spiders/csv_data/Fennerdrives/Fenner_Drives_additional_descr.csv", sep=';')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -44,21 +43,10 @@ class Weg(scrapy.Spider):
             return item
 
 
-
-
-=======
-import pandas
-
-from scrapy.spiders import CrawlSpider
-from scrapy import Request
-
-from mro.items import FannerdrivesItem
-
-
-class Fennerdrives(CrawlSpider):
+class Fennerdrives(scrapy.Spider):
     name = "fennerdrives"
     allowed_domains = ["fennerdrives.com", ]
-    data = pandas.read_csv("spiders/csv_data/Fennerdrives/Fenner_Drives_images.csv", sep=';')
+    data = pd.read_csv("spiders/csv_data/Fennerdrives/Fenner_Drives_images.csv", sep=';')
     catalog_number = list(data.catalog_number)
     main_image = list(data.main_image)
     images = dict(zip(catalog_number, main_image))
@@ -67,7 +55,7 @@ class Fennerdrives(CrawlSpider):
     def start_requests(self):
         for catalog_number in self.catalog_number:
             if 'default' in self.images[catalog_number]:
-                yield Request(
+                yield scrapy.Request(
                                 url='http://www.fennerdrives.com/search/?q={0}'.format(catalog_number), 
                                 callback=self.wrapper(catalog_number)
                             )
@@ -85,4 +73,3 @@ class Fennerdrives(CrawlSpider):
                     item['ids'] = self.ids[catalog_number]
                     return item
         return parse_item
->>>>>>> 2dc67e3c9ee4714ddf28170fa8fc331bae9c3ccc

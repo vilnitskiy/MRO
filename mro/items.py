@@ -319,3 +319,8 @@ class FannerdrivesItem(Item):
     ids = Field()
     catalog_number = Field()
     images = Field()
+
+class MfgImageItem(Item):
+    ids = Field()
+    catalog_number = Field()
+    img_url = Field()
