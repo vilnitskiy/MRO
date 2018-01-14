@@ -309,7 +309,7 @@ class MartinCADItem(Item):
     pdf = Field()
     #igs = Field()
 
-class UnivarsalItem(Item):
+class UniversalItem(Item):
     def __setitem__(self, key, value):
         if key not in self.fields:
             self.fields[key] = Field()

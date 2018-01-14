@@ -5,21 +5,22 @@ import urllib
 import pandas as pd
 import scrapy
 
-from mro.items import UnivarsalItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Redlion/red_lion.csv", sep=';')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
 ids = list(out.id)
 catalog_ids = dict(zip(catalog, ids))
 img_url = list(out.img_url)
+add_descr = list(out.add_descr)
 catalog_img_url = {k:v for k,v in dict(zip(catalog, img_url)).items() if (str(catalog_ids[k]) in v) or ('default' in v)}
-
+catalog_add_descr = [k for k,v in dict(zip(catalog, add_descr)).items() if str(v) == 'nan']
 
 class Weg(scrapy.Spider):
     name = "redlion"
 
     def start_requests(self):
-        for row in catalog_img_url.keys():
+        for row in catalog:
             url = 'http://www.redlion.net/search/node/' + row
             yield scrapy.Request(url=url, 
                 callback=self.parse_item, 
@@ -39,12 +40,17 @@ class Weg(scrapy.Spider):
     def parse_item2(self, response):
         row = response.meta['row']
         if row in (response.xpath('//*[@class="field field-name-field-model field-type-text field-label-above view-mode-full"]').extract_first() or ''):
-            img = response.xpath('//div[@class="main-product-image"]/a/@href').extract_first()
-            if img:
-                item = UnivarsalItem()
+            #spec = response.xpath('//section[@class="field field-name-field-specifications field-type-text-with-summary field-label-above view-mode-full"]').extract_first()
+            #if spec:
+            bruchures = response.xpath('//*[@id="sdownloads"]/div/ul[3]/li')
+            if bruchures:
+            	item = UniversalItem()
                 item['id'] = catalog_ids[row]
                 item['catalog_number'] = row
-                item['img_url'] = img.split('?')[0]
-                return item
+            	for i in bruchures:
+            		item['name'] = i.xpath('./a/text()').extract_first() or ''
+            		item['url'] = response.urljoin(i.xpath('./a/@href').extract_first())
+	                #item['img_url'] = img.split('?')[0]
+	                yield item
 
 

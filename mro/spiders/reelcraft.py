@@ -31,7 +31,7 @@ class Martin(scrapy.Spider):
             yield scrapy.Request(url=url,
                                  callback=self.parse_item,
                                  dont_filter=True,
-                                 meta={'row': row}
+                                 meta={'row': row, 'proxy': '37.48.118.90:13040'}
                                  )
 
 

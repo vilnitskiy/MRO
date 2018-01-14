@@ -13,7 +13,9 @@ BOT_NAME = 'mro'
 
 SPIDER_MODULES = ['mro.spiders']
 NEWSPIDER_MODULE = 'mro.spiders'
-
+DOWNLOADER_MIDDLEWARES = {
+'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 1,
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'mro (+http://www.yourdomain.com)'
