@@ -7,8 +7,7 @@ import zipfile
 
 import pandas as pd
 import scrapy
-
-from mro.items import TracepartsonlineErrorItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/tracepartsonline/tracepartsonline_others_pdf.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -109,7 +108,7 @@ class Mcr(scrapy.Spider):
         f.write(resp.read())
         f.close()
         if not zipfile.is_zipfile(root + name):
-            item = TracepartsonlineErrorItem()
+            item = UniversalItem()
             item['ids'] = catalog_ids[row]
             item[catalog_number] = row
             return item

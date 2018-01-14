@@ -5,8 +5,7 @@ import urllib2
 
 import pandas as pd
 import scrapy
-
-from mro.items import GatesItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Gates/gates.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -54,7 +53,7 @@ class GatesCadCrawl(scrapy.Spider):
             self.index += 1
             return self.request(url, meta_row, row, proxy)
         else:
-            item = GatesItem()
+            item = UniversalItem()
             item['ids'] = catalog_ids[meta_row]
             item['catalog_number'] = str(meta_row).strip()
             try:

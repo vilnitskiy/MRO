@@ -2,7 +2,7 @@
 import pandas
 from scrapy.spiders import CrawlSpider
 from scrapy import Request
-from mro.items import FannerdrivesItem
+from mro.items import UniversalItem
 
 
 class Fennerdrives(CrawlSpider):
@@ -29,7 +29,7 @@ class Fennerdrives(CrawlSpider):
             main_image = response.xpath('//div[@class="media wl-cf"]/div[@class="primary wl-cf"]/a/@href').extract_first()
             if main_image:
                 if self.images.get(catalog_number) and 'default' in self.images[catalog_number]:
-                    item = FannerdrivesItem()
+                    item = UniversalItem()
                     item['images'] = main_image
                     item['catalog_number'] = catalog_number
                     item['ids'] = self.ids[catalog_number]

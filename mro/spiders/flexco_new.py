@@ -3,7 +3,7 @@ import pandas as pd
 import scrapy
 import urllib
 import urllib2
-from mro.items import EItem
+from mro.items import UniversalItem
 from scrapy.http import FormRequest
 import re
 
@@ -74,7 +74,7 @@ class Weg(scrapy.Spider):
     def parse_item2(self, response):
         code = response.meta['code']
         descr = response.xpath('//*[@id="ctl00_ContentPlaceHolder1_dlSpecs"]').extract_first()
-        E = EItem()
+        E = UniversalItem()
         E['ids'] = item_codes_ids[code]
         E['description'] = item_codes_description[code]
         E['item_code'] = code

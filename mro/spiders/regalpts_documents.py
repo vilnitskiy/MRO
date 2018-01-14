@@ -2,8 +2,7 @@
 import pandas as pd
 import scrapy
 from scrapy.http import FormRequest
-
-from mro.items import RegalptsDocumentsItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Regal/Regal_Beloit_Documents.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -50,7 +49,7 @@ class RegalptsDocsCrawl(scrapy.Spider):
                            )
 
     def create_item(self, row, url, name):
-        item = RegalptsDocumentsItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[row]
         item['brand'] = catalog_brand[row]
         item['catalog_number'] = row

@@ -3,8 +3,7 @@ import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import StatesItem
+from mro.items import UniversalItem
 
 proxy = pandas.read_csv("spiders/csv_data/States/proxy.csv", sep=',')
 proxy_list = list(proxy.proxy)
@@ -57,7 +56,7 @@ class StatesSpider(CrawlSpider):
         mpn = response.xpath('//span[@id="mpn"]/text()').extract()[0]
         print mpn
         if mpn in catalog:
-            item = StatesItem()
+            item = UniversalItem()
             item['ids'] = catalog_ids[mpn]
             item['description'] = response.xpath('//div[@itemprop="description"]').extract()[0]
             item['catalog_number'] = mpn

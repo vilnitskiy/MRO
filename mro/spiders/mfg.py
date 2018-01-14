@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas
 import scrapy
-
-from mro.items import MfgImageItem
+from mro.items import UniversalItem
 
 class Durhammfg(scrapy.Spider):
     name = "durhammfg"
@@ -26,7 +25,7 @@ class Durhammfg(scrapy.Spider):
             item_image = response.xpath('//td[@class="item_img"]/img/@src').extract_first()
             if item_image:
                 if self.images.get(catalog_number) and 'default' in self.images[catalog_number]:
-                    item = MfgImageItem()
+                    item = UniversalItem()
                     item['ids'] = self.ids[catalog_number]
                     item['catalog_number'] = catalog_number
                     item['img_url'] = item_image

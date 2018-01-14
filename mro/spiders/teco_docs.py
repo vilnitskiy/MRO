@@ -3,8 +3,7 @@ import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import TecoDocsItem
+from mro.items import UniversalItem
 
 
 class TecoDocsCrawl(CrawlSpider):
@@ -54,7 +53,7 @@ class TecoDocsCrawl(CrawlSpider):
         names_links = dict(zip(names, links))
 
         for key, value in names_links.iteritems():
-            item = TecoDocsItem()
+            item = UniversalItem()
             item['ids'] = self.catalog_ids[catalog_number]
             item['catalog_number'] = catalog_number
             item['name'] = key

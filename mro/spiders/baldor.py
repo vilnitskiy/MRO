@@ -3,7 +3,7 @@ import pandas
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
 
-from mro.items import BaldorImgItem
+from mro.items import UniversalItem
 
 
 class BaldorSpider(CrawlSpider):
@@ -39,7 +39,7 @@ class BaldorSpider(CrawlSpider):
                 if img != '/api/images/451' or response.xpath(
                         '//table[@class="detail-table"]//tr[3]/td/text()').extract_first() != None or response.xpath(
                         '//table[@class="detail-table"]').re('(\d+.\d+ LB)'):
-                    item = BaldorImgItem()
+                    item = UniversalItem()
                     item['ids'] = catalog_ids[sku]
                     item['description'] = catalog_descr[sku]
                     item['catalog_number'] = sku

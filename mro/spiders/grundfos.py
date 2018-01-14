@@ -5,8 +5,7 @@ import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import GrundfosItem
+from mro.items import UniversalItem
 
 
 class GrundfosSpider(CrawlSpider):
@@ -60,7 +59,7 @@ class GrundfosSpider(CrawlSpider):
         if not response.xpath('//h1[@id="product-details-title"]/text()').extract():
             return
 
-        item = GrundfosItem()
+        item = UniversalItem()
 
         item['catalog_number'] = number
         print response.xpath('//div[@id="imageContainer"]/img/@src').extract()

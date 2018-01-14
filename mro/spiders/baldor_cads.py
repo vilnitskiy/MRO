@@ -5,8 +5,7 @@ import urllib2
 import pandas
 from scrapy.contrib.spiders import CrawlSpider
 
-from mro.items import BaldorCadItem
-
+from mro.items import UniversalItem
 
 class BaldorSpider(CrawlSpider):
     name = "baldor_cads"
@@ -39,7 +38,7 @@ class BaldorSpider(CrawlSpider):
     def parse_item(self, response):
         sku = response.url.rsplit('/', 1)[-1]
 
-        item = BaldorCadItem()
+        item = UniversalItem()
 
         item['description'] = self.catalog_descr[int(sku)]
         item['ids'] = self.catalog_ids[int(sku)]

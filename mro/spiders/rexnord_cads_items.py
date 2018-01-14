@@ -2,7 +2,7 @@
 import pandas as pd
 import scrapy
 
-from mro.items import RexnordCadItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Rexnord/Product_images.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -27,7 +27,7 @@ class Mcr(scrapy.Spider):
         cadid = response.xpath('//script[contains(text(), "insite.catalog.catalogPageGlobal")]').re(r'"cadid":(.+?),')
         if cadid:
             if cadid[0] != '""':
-                item = RexnordCadItem()
+                item = UniversalItem()
                 item['ids'] = catalog_ids[row]
                 item['catalog_number'] = row
                 item['cadid'] = cadid[0]

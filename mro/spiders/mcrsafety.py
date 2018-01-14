@@ -5,8 +5,7 @@ import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import McrsafetyItem
+from mro.items import UniversalItem
 
 
 class McrsafetyCrawl(CrawlSpider):
@@ -52,7 +51,7 @@ class McrsafetyCrawl(CrawlSpider):
 
         number = response.meta['number']
 
-        item = McrsafetyItem()
+        item = UniversalItem()
 
         item['ids'] = catalog_id[number]
         item['catalog_number'] = number

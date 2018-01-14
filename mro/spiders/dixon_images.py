@@ -3,8 +3,7 @@ import pandas
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
 
-from mro.items import DixonImgItem
-
+from mro.items import UniversalItem
 
 class DixonImagesSpider(CrawlSpider):
     name = "dixon_images"
@@ -33,7 +32,7 @@ class DixonImagesSpider(CrawlSpider):
         for sku in catalog:
             if str(sku) in response.xpath('//div[@id="product-specs"]').extract_first():
                 if sku not in self.items:
-                    item = DixonImgItem()
+                    item = UniversalItem()
                     item['ids'] = catalog_ids[sku]
                     item['catalog_number'] = sku
                     item['description'] = catalog_description[sku]

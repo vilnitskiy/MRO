@@ -3,8 +3,7 @@
 import pandas as pd
 import scrapy
 from scrapy.http import FormRequest
-
-from mro.items import RegalptsDescrItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Regal/Regal_Beloit_aux_descriptions.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -51,7 +50,7 @@ class Regalpts(scrapy.Spider):
                            )
 
     def create_item(self, row, table):
-        item = RegalptsDescrItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[row]
         item['brand'] = catalog_brand[row]
         item['catalog_number'] = row

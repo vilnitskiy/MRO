@@ -3,8 +3,7 @@ import json
 
 import pandas as pd
 import scrapy
-
-from mro.items import RexnordAttrItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Rexnord/Rexnord_images.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -25,7 +24,7 @@ class RexnordAttrCrawl(scrapy.Spider):
                                  )
 
     def create_item(self, row, attributes):
-        item = RexnordAttrItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[row]
         item['catalog_number'] = row
         item['attributes'] = attributes

@@ -8,8 +8,7 @@ from collections import defaultdict
 
 import pandas as pd
 import scrapy
-
-from mro.items import RexnordCadItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Rexnord/test_items_1.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -188,7 +187,7 @@ class RexnordCadCrawl(scrapy.Spider):
 
         url = data['url']
 
-        item = RexnordCadItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[catalog_number]
         item['catalog_number'] = catalog_number
         try:

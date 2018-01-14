@@ -5,7 +5,7 @@ import pandas
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
 
-from mro.items import BearImgItem
+from mro.items import UniversalItem
 
 
 class BearSpider(CrawlSpider):
@@ -37,7 +37,7 @@ class BearSpider(CrawlSpider):
         if ', ' in catalog_number:
             catalog_number = catalog_number.split(',', 1)[0]
 
-        item = BearImgItem()
+        item = UniversalItem()
         item['ids'] = self.catalog_ids[catalog_number]
         item['catalog_number'] = catalog_number
         item['main_image'] = 'http://bearingfinder.ntnamericas.com' + str(

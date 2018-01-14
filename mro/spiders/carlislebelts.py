@@ -4,8 +4,7 @@ import pandas as pd
 
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
-
-from mro.items import CarlislebeltsItem
+from mro.items import UniversalItem
 
 
 out = pd.read_csv("spiders/csv_data/Carlisle/Carlisle.csv", error_bad_lines=False, sep=',')
@@ -68,7 +67,7 @@ class CarlislebeltsCrawl(CrawlSpider):
     def parse_item(self, response):
         catalog_number = response.meta['catalog_number']
 
-        item = CarlislebeltsItem()
+        item = UniversalItem()
 
         item['ids'] = catalog_ids[catalog_number]
         item['catalog_number'] = catalog_number

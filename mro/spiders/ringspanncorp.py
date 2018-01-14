@@ -4,8 +4,7 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.contrib.spiders import Rule
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import RingspanncorpItem
+from mro.items import UniversalItem
 
 
 class RingspanncorpSpider(CrawlSpider):
@@ -54,7 +53,7 @@ class RingspanncorpSpider(CrawlSpider):
             name = ' ' + str(key)
             if name in response.xpath('//h1').extract_first():
                 if catalog_n not in self.items:
-                    item = ToshibaItem()
+                    item = UniversalItem()
                     item['ids'] = catalog_id[catalog_n]
                     item['catalog_number'] = catalog_n
                     key_digits = catalog_key1[catalog_n].re('(\d+)')
@@ -68,7 +67,7 @@ class RingspanncorpSpider(CrawlSpider):
             name2 = str(key) + ' '
             if name in response.xpath('//h1').extract_first() or name2 in response.xpath('//h1').extract_first():
                 if catalog_n not in self.items:
-                    item = ToshibaItem()
+                    item = UniversalItem()
                     item['ids'] = catalog_id[catalog_n]
                     item['catalog_number'] = catalog_n
                     key_digits = catalog_key1[catalog_n].re('(\d+)')
@@ -103,7 +102,7 @@ class RingspanncorpSpider(CrawlSpider):
             name = ' ' + str(key)
             if name in response.xpath('//h1').extract_first():
                 if catalog_n not in self.items:
-                    item = RingspanncorpItem()
+                    item = UniversalItem()
                     item['ids'] = catalog_id[catalog_n]
                     item['catalog_number'] = catalog_n
                     self.items.append(catalog_n)
@@ -116,7 +115,7 @@ class RingspanncorpSpider(CrawlSpider):
             name2 = str(key) + ' '
             if name in response.xpath('//h1').extract_first() or name2 in response.xpath('//h1').extract_first():
                 if catalog_n not in self.items:
-                    item = RingspanncorpItem()
+                    item = UniversalItem()
                     item['ids'] = catalog_id[catalog_n]
                     item['catalog_number'] = catalog_n
                     self.items.append(catalog_n)

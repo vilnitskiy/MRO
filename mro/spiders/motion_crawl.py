@@ -3,8 +3,7 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.contrib.spiders import Rule
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import MotionItem
+from mro.items import UniversalItem
 
 
 class MotionCrawl(CrawlSpider):
@@ -44,7 +43,7 @@ class MotionCrawl(CrawlSpider):
 
         for it, l in d:
             if it not in self.items:
-                item = MotionItem()
+                item = UniversalItem()
                 item['code'] = it
                 l = l.replace('\r', '')
                 l = l.replace('\n', '')

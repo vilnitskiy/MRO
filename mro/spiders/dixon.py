@@ -2,7 +2,7 @@
 import pandas as pd
 import scrapy
 
-from mro.items import DixonItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Dixon/dixon_additional_descr.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -22,7 +22,7 @@ class Dixon(scrapy.Spider):
         for column in response.xpath('//*[@id="block-dixon-product-product-resources"]/section/div[2]/div/div'):
             i = 1
             for h4 in column.xpath('h4'):
-                item = DixonItem()
+                item = UniversalItem()
                 item['ids'] = catalog_ids[
                     response.xpath('//*[@id="product-specs"]/table/tbody/tr[1]/td/text()').extract_first()]
                 item['name'] = h4.xpath('text()').extract_first()

@@ -4,7 +4,6 @@ import urllib
 
 import pandas as pd
 import scrapy
-
 from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Redlion/red_lion.csv", sep=';')
