@@ -5,8 +5,7 @@ import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import MetropacItem
+from mro.items import UniversalItem
 
 
 class MetropacSpider(CrawlSpider):
@@ -128,7 +127,7 @@ class MetropacSpider(CrawlSpider):
         if not price:
             return
 
-        item = MetropacItem()
+        item = UniversalItem()
         item['catalog_number'] = str(response.meta['meta_row']).strip()
         item['retail'] = re.findall('<b>Retail:</b> \$&nbsp;(.+)&nbsp;ea', response.body)[0]
         item['your_price'] = re.findall('<b>Your Price:</b> \$&nbsp;(.+)&nbsp;ea', response.body)[0]

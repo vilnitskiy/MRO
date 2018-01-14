@@ -3,8 +3,7 @@ import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import HubellItem
+from mro.items import UniversalItem
 
 out = pandas.read_csv("spiders/csv_data/Hubbell-wiring/test.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -60,7 +59,7 @@ class HubbellSpider(CrawlSpider):
 
         catalog_number = response.request.meta['catalog_number']
 
-        item = HubellItem()
+        item = UniversalItem()
 
         item['ids'] = catalog_ids[catalog_number]
         item['catalog_number'] = catalog_number

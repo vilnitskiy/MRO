@@ -6,8 +6,7 @@ import urllib2
 import pandas as pd
 import scrapy
 from scrapy.http import FormRequest
-
-from mro.items import SkfSealsItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Skf/skf_seals.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -40,7 +39,7 @@ class SkfSealsCrawl(scrapy.Spider):
         return self.request(meta_row)
 
     def error(self, row, key=''):
-        item = SkfSealsItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[row]
         item['catalog_number'] = str(row).strip()
         item['file_name'] = key

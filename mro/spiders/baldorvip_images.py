@@ -4,7 +4,7 @@ import scrapy
 import yaml
 from scrapy.http import FormRequest
 
-from mro.items import BaldorvipImagesItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Baldor/baldor1.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -35,7 +35,7 @@ class Dixon(scrapy.Spider):
     def parse_item1(self, response, row):
         index = 0
         for head in response.xpath('//*[@class="drawingHeader"]'):
-            item = BaldorvipImagesItem()
+            item = UniversalItem()
             item['ids'] = catalog_ids[row]
             item['catalog_number'] = row
             item['name'] = head.xpath('text()').extract_first()

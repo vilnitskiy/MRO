@@ -5,8 +5,7 @@ import pandas as pd
 import scrapy
 import lxml.html
 import lxml.html.clean as clean
-
-from mro.items import MartinItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Reelcraft/Export_for_products_product.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -69,7 +68,7 @@ class Martin(scrapy.Spider):
                 attr = table
             else:
                 attr = catalog_attributes[row]
-            item = MartinItem()
+            item = UniversalItem()
             item['ids'] = catalog_ids[row]
             item['catalog_number'] = row
             item['description'] = catalog_description[row]

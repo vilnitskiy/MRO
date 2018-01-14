@@ -5,8 +5,7 @@ import urllib2
 import pandas as pd
 import scrapy
 from scrapy.http import FormRequest
-
-from mro.items import SkfItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Skf/SKF_Bearings.csv", sep=',')
 out['cad'] = ''
@@ -83,7 +82,7 @@ class SKFCadsCrawl(scrapy.Spider):
     def parse_item2(self, response, meta_row):
         orderno = response.xpath('//*').re(r'<ORDERNO>(.+)</ORDERNO>')[0] + '/'
         zipfile = response.xpath('//*').re(r'<ZIPFILE>(.+)</ZIPFILE>')[0]
-        item = SkfItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[meta_row]
         item['catalog_number'] = str(meta_row).strip()
         item['file_urls'] = ['http://www.skf.com/cadDownload/' + orderno + zipfile]

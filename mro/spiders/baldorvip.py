@@ -3,6 +3,7 @@ import pandas as pd
 import scrapy
 import yaml
 from scrapy.http import FormRequest
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Baldor/baldor.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -45,7 +46,7 @@ class Baldor(scrapy.Spider):
                            callback=self.parse_item3, meta={'row': response.meta['row'], 'res': result})
 
     def parse_item3(self, response):
-        item = BaldorItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[response.meta['row']]
         item['catalog_number'] = response.meta['row']
         result = str(response.meta['res']) + str(response.xpath('//*/form').extract_first())

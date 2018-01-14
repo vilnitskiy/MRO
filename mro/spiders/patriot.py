@@ -3,8 +3,7 @@ import urllib
 
 import pandas as pd
 import scrapy
-
-from mro.items import PatriotItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Patriot/patriot.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -60,7 +59,7 @@ class Patriot(scrapy.Spider):
 
     def parse_item3(self, response):
         descr = response.xpath('/html/body/div').extract_first()
-        item = PatriotItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[response.meta['meta_row']]
         item['catalog_number'] = str(response.meta['meta_row']).strip()
         item['descr'] = descr

@@ -3,7 +3,7 @@ import json
 import re
 import pandas as pd
 import scrapy
-from mro.items import MartinCADItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Reelcraft/Export_for_products_product.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -62,7 +62,7 @@ class Martin(scrapy.Spider):
 		file_name = response.url.split('/')[-1]
 		with open('results/Reelcraft/' + cad + '_cad/' + file_name, 'wb') as file:
 			file.write(response.body)
-		item = MartinCADItem()
+		item = UniversalItem()
 		item['ids'] = catalog_ids[row]
 		item['catalog_number'] = row
 		item['pdf'] = file_name

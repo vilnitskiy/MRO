@@ -4,8 +4,7 @@ import urllib
 
 import pandas as pd
 import scrapy
-
-from mro.items import WegItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Weg/weg.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -31,7 +30,7 @@ class Weg(scrapy.Spider):
         return self.request(meta_row)
 
     def error(self, row):
-        item = WegItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[row]
         item['catalog_number'] = str(row)
         item['descr'] = ''
@@ -112,7 +111,7 @@ class Weg(scrapy.Spider):
         add_descr1 = self.construct_table1(response.xpath('//*[@id="page"]/div/div/section[1]/div[2]/div[2]'))
         add_descr2 = self.construct_table2(response)
         img = response.xpath('//*[@id="xtt-product-gallery"]/div/div/img/@src').extract_first()
-        item = WegItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[meta_row]
         item['catalog_number'] = str(meta_row).strip()
         item['descr'] = descr

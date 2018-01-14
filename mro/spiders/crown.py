@@ -5,8 +5,7 @@ import urllib
 
 import pandas as pd
 import scrapy
-
-from mro.items import CrownItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Crown/Crown_images_&_descr.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -39,7 +38,7 @@ class Mcr(scrapy.Spider):
                               )
 
     def create_item(self, row, img_url, doc_url, add_descr):
-        item = CrownItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[row]
         item['catalog_number'] = row
         item['img'] = img_url

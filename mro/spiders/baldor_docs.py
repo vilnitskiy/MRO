@@ -4,7 +4,7 @@ import re
 import pandas as pd
 import scrapy
 
-from mro.items import BaldorDocsItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Baldor/diff_baldor.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -30,7 +30,7 @@ class Mcr(scrapy.Spider):
                               )
 
     def create_item(self, row, img, doc_name, doc_url, specs):
-        item = BaldorDocsItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[row]
         item['catalog_number'] = row
         item['description'] = catalog_descr[row]

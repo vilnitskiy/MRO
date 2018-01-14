@@ -3,34 +3,16 @@ import json
 import re
 import pandas as pd
 import scrapy
-
-from mro.items import MartinItem
-
-out = pd.read_csv("spiders/csv_data/Martin/martin_catalog.csv", sep=',')
-catalog = [str(item).strip() for item in list(out.catalog_number)]
-ids = list(out.id)
-description = list(out.description)
-images = list(out.main_image)
-additional_description = list(out.additional_description)
-attributes = list(out.attributes)
-catalog_ids = dict(zip(catalog, ids))
-catalog_images = dict(zip(catalog, images))
-catalog_description = dict(zip(catalog, description))
-catalog_additional_description = dict(zip(catalog, additional_description))
-catalog_attributes = dict(zip(catalog, attributes))
+from mro.BaseSpiders.base_spiders import BaseMroSpider
 
 
-class Martin(scrapy.Spider):
+
+class Martin(BaseMroSpider):
     name = "martin"
-
-    def start_requests(self):
-        for row in catalog:
-            url = 'http://productcatalog.martinsprocket.com/views/productinfo.aspx?Part_Number=' + row
-            yield scrapy.Request(url=url,
-                                 callback=self.parse_item,
-                                 dont_filter=True,
-                                 meta={'row': row}
-                                 )
+    search_url = 'http://productcatalog.martinsprocket.com/views/productinfo.aspx?Part_Number={}'
+    path_to_data = 'spiders/csv_data/Martin/martin_catalog.csv'
+    separator = ','
+    fields = ['id', 'main_image', 'additional_description', 'attributes', 'description']
 
 
     def custom_extractor(self, response, expression):
@@ -39,16 +21,16 @@ class Martin(scrapy.Spider):
 
     def parse_item(self, response):
         row = response.meta['row']
-        if ('default' in catalog_images[row]) or (str(catalog_ids[row]) in catalog_images[row]):
+        if ('default' in self.catalog_main_image[row]) or (str(self.catalog_id[row]) in self.catalog_main_image[row]):
             img = response.xpath('//*[@id="main"]/div[2]/div[1]/div[1]/img/@src').extract_first()
-            img = response.urljoin(img) if img != None else catalog_images[row]
+            img = response.urljoin(img) if img != None else self.catalog_main_image[row]
         else:
-            img = catalog_images[row]
-        if str(catalog_additional_description[row]) == 'nan':
+            img = self.catalog_main_image[row]
+        if str(self.catalog_additional_description[row]) == 'nan':
             add_descr = self.custom_extractor(response, '//*[@id="main"]/div[2]/div[1]/div[2]/div[2]/text()')
         else:
-            add_descr = catalog_additional_description[row]
-        if str(catalog_attributes[row]) == 'nan':
+            add_descr = self.catalog_additional_description[row]
+        if str(self.catalog_attributes[row]) == 'nan':
             table = self.custom_extractor(response, '//*[@id="tabs-00001"]/table').encode('utf-8')
             table = re.sub(r'<table .+>', '<table>', table)
             table = re.sub(r'<td .+>', '<td>', table)
@@ -60,12 +42,12 @@ class Martin(scrapy.Spider):
             table = table.replace('\n', '')
             attr = table
         else:
-            attr = catalog_attributes[row]
-        item = MartinItem()
-        item['ids'] = catalog_ids[row]
-        item['catalog_number'] = row
-        item['description'] = catalog_description[row]
-        item['main_image'] = img
-        item['additional_description'] = add_descr
-        item['attributes'] = attr
-        return item
+            attr = self.catalog_attributes[row]
+        return {
+            'id': self.catalog_id[row],
+            'catalog_number': row,
+            'description': self.catalog_description[row],
+            'main_image': img,
+            'additional_description': add_descr,
+            'attributes': attr
+        }

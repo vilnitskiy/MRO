@@ -8,8 +8,7 @@ import zipfile
 import pandas as pd
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.http import FormRequest
-
-from mro.items import RegalCadItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Regal/regal_new.csv", sep=',')
 catalog = list(out.catalog_number)
@@ -58,7 +57,7 @@ class RegalptsCadsCrawl(CrawlSpider):
                            )
 
     def create_item(self, meta_row, cad):
-        item = RegalCadItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[meta_row]
         item['catalog_number'] = str(meta_row).strip()
         item['cad'] = cad

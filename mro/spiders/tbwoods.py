@@ -6,7 +6,7 @@ import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
 
-from mro.items import MartinItem
+from mro.items import UniversalItem
 
 data = pandas.read_csv("spiders/csv_data/Tbwoods/TB_Woods_Data.csv", sep=',')
 catalog = list(data.catalog_number)
@@ -63,7 +63,7 @@ class BostongearCrawl(CrawlSpider):
                     if item['dataType'] != 'attachment' and item['dataType'] != 'image' and item['visible']:
                         attr += item['label'] + ':' + values[i] + '|'
                 attr = attr[:-1]
-        item = MartinItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[row]
         item['catalog_number'] = row
         item['description'] = catalog_descriptions[row]

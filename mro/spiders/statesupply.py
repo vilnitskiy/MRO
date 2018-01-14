@@ -2,7 +2,7 @@
 import pandas as pd
 import scrapy
 import urllib
-from mro.items import PatriotItem
+from mro.items import UniversalItem
  
 
 out = pd.read_csv("spiders/csv_data/statesupply/patriot.csv", sep=',')
@@ -46,7 +46,7 @@ class Statesupply(scrapy.Spider):
         return self.request(row, proxy)
 
     def create_item(self, meta_row, overview=''):
-        item = PatriotItem()
+        item = UniversalItem()
         item['ids'] = catalog_ids[meta_row]
         item['catalog_number'] = str(meta_row).strip()
         item['descr'] = overview

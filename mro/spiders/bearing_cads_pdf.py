@@ -9,8 +9,7 @@ import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
-
-from mro.items import BearCadItem
+from mro.items import UniversalItem
 
 
 class BearCadsSpider(CrawlSpider):
@@ -138,7 +137,7 @@ class BearCadsSpider(CrawlSpider):
             print data['CadDownloadUrl']
             print '\n'
 
-            item = BearCadItem()
+            item = UniversalItem()
             catalog_number = response.request.meta['catalog_number']
             item['catalog_number'] = catalog_number
             item['ids'] = self.catalog_ids[catalog_number]

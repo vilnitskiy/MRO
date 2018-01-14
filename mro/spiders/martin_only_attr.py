@@ -3,8 +3,7 @@ import json
 import re
 import pandas as pd
 import scrapy
-
-from mro.items import MartinAttributesItem
+from mro.items import UniversalItem
 
 out = pd.read_csv("spiders/csv_data/Martin/martin_catalog.csv", sep=',')
 catalog = [str(item).strip() for item in list(out.catalog_number)]
@@ -44,7 +43,7 @@ class Martin(scrapy.Spider):
             table = table.replace('\r', '')
             table = table.replace('\n', '')
             attr = table
-            item = MartinAttributesItem()
+            item = UniversalItem()
             item['ids'] = catalog_ids[row]
             item['catalog_number'] = row
             item['attributes'] = attr

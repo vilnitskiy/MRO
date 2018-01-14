@@ -5,8 +5,7 @@ import re
 import pandas
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider
-
-from mro.items import BostongearItem
+from mro.items import UniversalItem
 
 data = pandas.read_csv("spiders/csv_data/Bostongear/boston_gear_data.csv", sep=',')
 catalog = list(data.catalog_number)
@@ -63,7 +62,7 @@ class BostongearCrawl(CrawlSpider):
                         dont_filter=True
                     )
             elif str(catalog_descriptions[row]) != 'nan' or str(catalog_documents[row]) != 'nan':
-                item = BostongearItem()
+                item = UniversalItem()
                 item['ids'] = catalog_ids[row]
                 item['catalog_number'] = row
                 item['code'] = catalog_codes[row]
@@ -73,7 +72,7 @@ class BostongearCrawl(CrawlSpider):
                 return item
         else:
             products = products[0]
-            item = BostongearItem()
+            item = UniversalItem()
             item['ids'] = catalog_ids[row]
             item['catalog_number'] = row
             item['code'] = catalog_codes[row]
