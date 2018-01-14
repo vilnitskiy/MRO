@@ -39,13 +39,9 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
-      # run tests!
+      # scrapy check available spiders
       - run:
-          name: run tests
+          name: check code
           command: |
             . venv/bin/activate
-            python manage.py test
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+            scrapy list
