@@ -44,4 +44,5 @@ jobs:
           name: check code
           command: |
             . venv/bin/activate
+            cd mro
             scrapy list
