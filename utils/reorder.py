@@ -1,9 +1,9 @@
 import csv
 
-with open('result_bostongear.csv', 'r') as infile, \
-        open('bostongear.csv', 'a') as outfile:
+with open('results/mfg_add_descr_new.csv', 'r') as infile, \
+        open('results/mfg_add_descr_new_new.csv', 'a') as outfile:
         # documents	catalog_number	image	ids	additional_description	code	name
-    fieldnames = ['ids', 'catalog_number', 'code', 'image', 'documents', 'name', 'additional_description']
+    fieldnames = ['id', 'catalog_number', 'add_descr']
     writer = csv.DictWriter(outfile, fieldnames=fieldnames)
     writer.writeheader()
     for row in csv.DictReader(infile):
