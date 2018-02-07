@@ -1,9 +1,10 @@
 import csv
 
-with open('mro/results/timken/timken_next_img.csv', 'r') as infile, \
-        open('mro/results/timken/timken_next_img_r.csv', 'a') as outfile:
+
+with open('./zero_attr.csv', 'r') as infile, \
+        open('mro/results/zero/zero_attr.csv', 'a') as outfile:
         # documents	catalog_number	image	ids	additional_description	code	name
-    fieldnames = ['id', 'catalog_number', 'img']
+    fieldnames = ['id', 'catalog_number', 'attributes',]
     writer = csv.DictWriter(outfile, fieldnames=fieldnames)
     writer.writeheader()
     for row in csv.DictReader(infile):

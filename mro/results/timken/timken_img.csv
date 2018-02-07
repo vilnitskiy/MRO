@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 id,catalog_number,supplier_id,brand_id,list_price,cost,description,category_id,weight,condition,is_obsolete,ship_time,freight_class,img
+=======
+id,catalog_number,supplier_id,brand_id,list_price,cost,description,category_id,weight,condition,is_obsolete,ship_time,freight_class
+>>>>>>> 83bfd0fd50649d5799e70c759967e59068dbce86
 5058987,2MM215WI,307,147,848.12,424.06,TIMKEN 2MM215WI Ball P4S Super Precision,686,2.588,1,False,24,50,http://cad.timken.com/Asset/TKR14110054.jpg
 5058981,2MM9110WI,307,147,420.08,210.04,TIMKEN 2MM9110WI Ball P4S Super Precision,686,0.569,1,False,24,50,http://cad.timken.com/Asset/TKR14110054.jpg
 5059037,5202K,307,147,74.36,37.18,TIMKEN 5202K Ball Angular Contact Double Row,324,0.16,1,False,24,50,http://cad.timken.com/Asset/TKR14080026-20-5310KG-.jpg
