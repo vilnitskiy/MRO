@@ -13,7 +13,7 @@ class Martin(BaseMroSpider):
     search_url = 'http://products.remcoproducts.com/Search.aspx?Keyword={}'
     path_to_data = 'mro/spiders/csv_data/remko/Remco Products.csv'
     separator = ','
-    fields = ['id','main_image','additional_description','attributes']
+    exclude_fields = ['description']
 
     def parse_item(self, response):
         catalog = response.meta['row']
