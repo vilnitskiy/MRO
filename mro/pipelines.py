@@ -26,8 +26,7 @@ class MroPipeline(object):
 
   def spider_closed(self, spider):
     self.exporter.finish_exporting()
-    file = self.files.pop(spider)
-    file.close()
+    self.files.pop(spider).close()
 
   def process_item(self, item, spider):
     self.exporter.export_item(item)
