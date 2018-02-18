@@ -15,7 +15,7 @@ class BaseMroSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super(BaseMroSpider, self).__init__(*args, **kwargs)
         data = pd.read_csv(self.path_to_data, sep=self.separator)
-        self.catalog = data.catalog_number
+        self.catalog = map(str, data.catalog_number)
         #for field in set(data._data.items) - set(self.exclude_fields) - set('catalog_number'):
         for field in set(data._data.items) - set('catalog_number'):
             setattr(self, 'catalog_' + field, dict(zip(self.catalog, map(str, getattr(data, field, '')))))
