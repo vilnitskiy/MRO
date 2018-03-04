@@ -2,35 +2,24 @@ import re
 import pandas as pd
 import csv
 
-out = pd.read_csv("mro/Export_for_products_product.csv", sep=',')
+out = pd.read_csv("result_schneider.csv", sep=',')
 catalog_numbers = list(out.catalog_number)
 ids = list(out.id)
-description = list(out.description)
-main_image = list(out.main_image)
-additional_description = list(out.additional_description)
-Brand = list(out.Brand)
-attributes = list(out.attributes)
+instruction_sheet = list(out.instruction_sheet)
+product_datasheet = list(out.product_datasheet)
+
 catalog_ids = dict(zip(catalog_numbers, ids))
-catalog_description = dict(zip(catalog_numbers, description))
-catalog_main_image = dict(zip(catalog_numbers, main_image))
-catalog_additional_description = dict(zip(catalog_numbers, additional_description))
-catalog_Brand = dict(zip(catalog_numbers, Brand))
-catalog_attributes = dict(zip(catalog_numbers, attributes))
+catalog_instruction_sheet = dict(zip(catalog_numbers, instruction_sheet))
+catalog_product_datasheet = dict(zip(catalog_numbers, product_datasheet))
 
 
-['U.S.Tsubaki', 'Pyramex', 'Remco Products', 'Zero-Max']
-
-with open('mro/Remco Products.csv', 'wb') as csvfile:
+with open('mro/results/schneider/schneider_product_datasheet.csv', 'wb') as csvfile:
 	spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"')
-	spamwriter.writerow(['id', 'catalog_number', 'description', 'main_image', 'additional_description', 'attributes', 'Brand'])
+	spamwriter.writerow(['id', 'catalog_number', 'product_datasheet'])
 	for item in catalog_numbers:
-		if catalog_Brand[item] == "Remco Products":
+		if str(catalog_product_datasheet[item]) != "nan":
 			spamwriter.writerow([catalog_ids[item], 
-				item, 
-				catalog_description[item], 
-				catalog_main_image[item], 
-				catalog_additional_description[item],
-				catalog_attributes[item],
-				catalog_Brand[item], 
+				item,
+				catalog_product_datasheet[item][2:]
 				])
 
