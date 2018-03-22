@@ -13,11 +13,6 @@ class Martin(BaseMroSpider):
     search_url = 'http://cad.timken.com/keyword/all-product-types?key=all&&keyword={}&SchType=2'
     path_to_data = 'mro/spiders/csv_data/Timken/timken_img_final.csv'
     separator = ','
-    '''
-    fields = ['id','supplier_id','brand_id','list_price','cost','description',
-    'category_id','weight','condition','is_obsolete','ship_time','freight_class']
-    '''
-    fields = ['id']
     attributes = ['Specifications', 'Dimensions', 'Basic Load Ratings', 'Abutment and Fillet Dimensions', 'Basic Load Ratings', 'Factors']
 
 

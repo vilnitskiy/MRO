@@ -5,6 +5,7 @@ from scrapy.exceptions import CloseSpider
 
 
 class BaseMroSpider(scrapy.Spider):
+    _custom_csv = True
     search_url = '' #example https://www.patriot-supply.com/?q={}
     path_to_data = '' 
     separator = ',' # , or ; or something

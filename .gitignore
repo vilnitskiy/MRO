@@ -27,6 +27,8 @@ wheels/
 dxf_cad/
 igs_cad/
 pdf_cad/
+mro/spiders/yelp
+yelp.csv
 *.egg-info/
 .installed.cfg
 *.egg

@@ -2,24 +2,26 @@ import re
 import pandas as pd
 import csv
 
-out = pd.read_csv("result_schneider.csv", sep=',')
+out = pd.read_csv("result_cooperindustries.csv", sep=',')
 catalog_numbers = list(out.catalog_number)
 ids = list(out.id)
-instruction_sheet = list(out.instruction_sheet)
-product_datasheet = list(out.product_datasheet)
+img = list(out.img)
+add_descr = list(out.add_descr)
+attributes = list(out.attributes)
 
 catalog_ids = dict(zip(catalog_numbers, ids))
-catalog_instruction_sheet = dict(zip(catalog_numbers, instruction_sheet))
-catalog_product_datasheet = dict(zip(catalog_numbers, product_datasheet))
+catalog_img = dict(zip(catalog_numbers, img))
+catalog_attributes = dict(zip(catalog_numbers, attributes))
+catalog_add_descr = dict(zip(catalog_numbers, add_descr))
 
 
-with open('mro/results/schneider/schneider_product_datasheet.csv', 'wb') as csvfile:
+with open('mro/results/cooperindustries/cooperindustries_add_descr.csv', 'wb') as csvfile:
 	spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"')
-	spamwriter.writerow(['id', 'catalog_number', 'product_datasheet'])
+	spamwriter.writerow(['id', 'catalog_number', 'add_descr'])
 	for item in catalog_numbers:
-		if str(catalog_product_datasheet[item]) != "nan":
+		if str(catalog_add_descr[item]) != "nan":
 			spamwriter.writerow([catalog_ids[item], 
 				item,
-				catalog_product_datasheet[item][2:]
+				catalog_add_descr[item]
 				])
 

@@ -10,7 +10,7 @@ class MroPipeline(object):
 
   @classmethod
   def from_crawler(cls, crawler):
-    if BaseMroSpider not in crawler.spider.__class__.__bases__:
+    if not getattr(crawler.spider, '_custom_csv', False):
         return None
     pipeline = cls()
     crawler.signals.connect(pipeline.spider_opened, signals.spider_opened)
