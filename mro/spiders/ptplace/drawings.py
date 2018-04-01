@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-import json
-import re
-import pandas as pd
 import scrapy
-from mro.BaseSpiders.base_spiders import BaseMroSpider
-from scrapy.exceptions import CloseSpider
 
+from mro.BaseSpiders.base_spiders import BaseMroSpider
 
 
 class Ptplace(BaseMroSpider):
@@ -25,28 +21,23 @@ class Ptplace(BaseMroSpider):
 
     def parse_item(self, response):
         catalog = response.meta['row']
-        catalog_= catalog.replace('.', '-')
-        for name in response.xpath('//*[@id="std-layout1_popup"]/div[1]/div/div/div[2]/table[1]/tr/td[1]/div[1]/a/nobr'):
+        catalog_ = catalog.replace('.', '-')
+        for name in response.xpath(
+                '//*[@id="std-layout1_popup"]/div[1]/div/div/div[2]/table[1]/tr/td[1]/div[1]/a/nobr'):
             search_catalog = name.xpath('./text()').extract_first() or ''
             if search_catalog == catalog_ or search_catalog.replace('-', '') == catalog_:
                 url = name.xpath('./../@href').extract_first()
                 if url:
                     return scrapy.Request(url=response.urljoin(url),
-                                 callback=self.parse_next,
-                                 meta=response.meta
-                                 ) 
+                                          callback=self.parse_next,
+                                          meta=response.meta
+                                          )
 
     def parse_next(self, response):
         catalog = response.meta['row']
         exclude_images = ['eigen_rot', 'transpix']
-        images = [img for img in response.xpath('//table/tr/td/img/@src').extract() if all([i not in img for i in exclude_images])]
-        for img in filter(lambda x: all([i not in x for i in exclude_images]), response.xpath('//table/tr/td/img/@src').extract()):
-            yield self.create_item(self.catalog_id[catalog],catalog,response.urljoin(img))
-
-
-        
-
-
-
-
-
+        images = [img for img in response.xpath('//table/tr/td/img/@src').extract() if
+                  all([i not in img for i in exclude_images])]
+        for img in filter(lambda x: all([i not in x for i in exclude_images]),
+                          response.xpath('//table/tr/td/img/@src').extract()):
+            yield self.create_item(self.catalog_id[catalog], catalog, response.urljoin(img))
